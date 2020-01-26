@@ -3,19 +3,20 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-	entry       :"./src/index.js",
+	entry       :"./src/index.tsx",
 	output      :{
 		path    :path.join(__dirname, "dist"),
 		filename:"bundle.js",
 		publicPath: '/'
 	},
+	devtool: 'inline-source-map',
 	devServer   :{
 		historyApiFallback:true,
-		host              :'localhost',
-		allowedHosts      :['my-react-app.local'],
+		host              :'localhost',/*
+		allowedHosts      :['my-react-app.local'],*/
 		contentBase       :path.join(__dirname, "dist"),
 		compress          :true,
-		port              :8001,
+		port              :8002,
 		watchContentBase  :true,
 		progress          :true,
 		stats             :'minimal',
@@ -28,7 +29,12 @@ module.exports = {
 	module      :{
 		rules:[
 			{
-				test   :/\.js$/,
+				test: /\.tsx?$/,
+				use: 'ts-loader',
+				exclude: /node_modules/,
+			},
+			{
+				test   :/\.jsx?$/,
 				exclude:/node_modules/,
 				use    :{
 					loader:"babel-loader"
@@ -76,6 +82,7 @@ module.exports = {
 		})
 	],
 	resolve     :{
+		extensions: ['.tsx', '.ts', '.js'],
 		alias:{
 			'@': path.resolve('./src'),
 			'assets': path.resolve('./src/assets')
