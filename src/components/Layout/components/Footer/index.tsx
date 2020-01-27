@@ -4,7 +4,7 @@ import {
     Container
 } from 'semantic-ui-react';
 import * as styles from './styles.less';
-import logo from '@/assets/img/logo.png';
+import logo from '../../../../assets/img/logo.png';
 
 export default function Footer() {
     return <footer className={classNames(styles.footerOuter)}>
