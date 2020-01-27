@@ -1,6 +1,10 @@
-import {AxiosInstance} from 'axios';
+import {AxiosInstance, AxiosPromise} from 'axios';
 
-export default class SampleApi {
+export interface InterfaceSampleApi {
+    getUsers: Function,
+}
+
+export default class SampleApi implements InterfaceSampleApi {
     api: AxiosInstance;
     apiHost = 'https://jsonplaceholder.typicode.com';
 
@@ -12,11 +16,7 @@ export default class SampleApi {
     }
 
 
-    /**
-     * @return Promise
-     * */
-    getUsers() {
+    getUsers():AxiosPromise {
         return this.api.get(`/users`);
     }
-
 }

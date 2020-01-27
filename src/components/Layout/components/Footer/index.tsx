@@ -12,14 +12,9 @@ export default function Footer() {
             <div className={styles.footer}>
                 <img src={logo} width="151px" alt="Logotype" />
                 <div className={styles.footerInner}>
-                    <div className={styles.wrapper}>
-                        <span>Term & Conditions</span>
-                        <span>Privacy Policy</span>
-                    </div>
-                    <span>© 2019 Landly.AI. All rights reserved.</span>
+                    <span>© 2020 MyWebSite. All rights reserved.</span>
                 </div>
             </div>
         </Container>
-    </footer>
-        ;
+    </footer>;
 }
