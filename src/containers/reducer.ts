@@ -1,4 +1,13 @@
 import {combineReducers} from 'redux';
-import students from './students/reducer';
+import students, {StudentsStateType} from './students/reducer';
+import student, {StudentStateType} from './student/reducer';
 
-export default combineReducers({students});
+export interface IAppState {
+    student: StudentStateType,
+    students: StudentsStateType,
+}
+
+export default combineReducers({
+    students,
+    student
+});

@@ -1,8 +1,18 @@
-import {IReduxAction} from "@/declarations";
-import {initialState, IStudentState} from "./actions";
+import {
+    initialState,
+    IState,
+    ActionType,
+    ACTION_SET_ITEMS,
+    ACTION_SET_IS_LOADING
+} from "./actions";
 
-export default function reducer(state:IStudentState = initialState, action: IReduxAction) {
+export type StudentsStateType = IState;
+
+export default function reducer(state: IState = initialState, action: ActionType) {
     switch (action.type) {
+        case ACTION_SET_ITEMS:
+        case ACTION_SET_IS_LOADING:
+            return {...state, ...action.payload};
         default:
             return state;
     }
