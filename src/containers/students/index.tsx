@@ -17,7 +17,7 @@ export type Props = StateProps & DispatchProps & OwnProps;
 
 const mapStateToProps = (state: IRootState): StateProps => state.app.students;
 const mapDispatchToProps = (dispatch: ThunkDispatch<IRootState, {}, AnyAction>) => ({
-    loadItems: () => dispatch(actions.loadItems())
+    loadItems: () => dispatch(actions.loadItems()),
 });
 
 

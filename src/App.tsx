@@ -1,6 +1,32 @@
 import React from 'react';
-import Layout from '@/components/Layout';
 
-export default function App(){
-    return <Layout/>;
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route
+} from 'react-router-dom';
+
+import Layout from '@/components/Layout';
+import Students from "@/containers/Students";
+// import {Create} from "@/containers/Student";
+
+export default function App() {
+    return <Router>
+        <Layout>
+            <Switch>
+                <Route
+                    exact={true}
+                    path='/'
+                    render={(props) => (<Students />)}
+                />
+                {/*
+                                <Route
+                                    exact={true}
+                                    path='/create'
+                                    render={(props) => (<Create />)}
+                                />*/}
+
+            </Switch>
+        </Layout>
+    </Router>
 };

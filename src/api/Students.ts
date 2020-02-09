@@ -1,12 +1,13 @@
 const storageKey = 'studentsData';
 
 export enum StudentPerformance {
-    Low,
-    Medium,
-    Good,
-    Perfect
+    LOW = "Low",
+    MEDIUM = "Medium",
+    GOOD = "Good",
+    PERFECT = "Perfect"
 }
 
+console.log(Object.values(StudentPerformance), Object.keys(StudentPerformance));
 export interface IStudent {
     fullName: string,
     dateOfBirth: string,
@@ -35,11 +36,13 @@ function _findIndexById(id: number): number {
 
 
 export function all(): IStudentModel[] {
+    console.log('Request LocalStorage::/students/all');
     const _students = localStorage.getItem(storageKey);
     return _students ? JSON.parse(_students) : [];
 }
 
 export function create(student: IStudent): void {
+    console.log('Request LocalStorage::/students/create', {student});
     const students = Array.from(all());
 
     const _student: IStudentModel = {
@@ -53,6 +56,7 @@ export function create(student: IStudent): void {
 }
 
 export function update(student: IStudentModel): void {
+    console.log('Request LocalStorage::/students/update', {student});
     const students = all();
     const key = _findIndexById(student.id);
 
@@ -66,10 +70,12 @@ export function update(student: IStudentModel): void {
 }
 
 export function read(studentId: number): IStudentModel | null {
+    console.log('Request LocalStorage::/students/read', {studentId});
     return all().find(item => item.id === studentId) || null;
 }
 
 export function remove(studentId: number): void {
+    console.log('Request LocalStorage::/students/remove', {studentId});
     const students = all();
     const key = _findIndexById(studentId);
     students.splice(key, 1);

@@ -2,7 +2,7 @@ import * as StudentsAPI from "@/api/Students";
 import {AnyAction} from "redux";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
 
-const PATH = 'app/containers/students';
+const PATH = 'app/containers/Students';
 export const ACTION_READ = `${PATH}/READ`;
 export const ACTION_IS_LOADING = `${PATH}/IS_LOADING`;
 export const ACTION_ERROR = `${PATH}/ERROR`;

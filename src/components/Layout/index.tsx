@@ -1,13 +1,14 @@
 import React from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Students from '@/containers/students';
 
 
-export default function Layout(){
+const Layout: React.FC<React.PropsWithChildren<{}>> = (props) => {
     return (<>
         <Header />
-        <Students />
+        {props.children}
         <Footer />
     </>);
-}
+};
+
+export default Layout;

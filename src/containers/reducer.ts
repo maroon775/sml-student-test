@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
-import students, {StudentsStateType} from './students/reducer';
-import student, {StudentStateType} from './student/reducer';
+import students, {StudentsStateType} from './Students/reducer';
+import student, {StudentStateType} from './Student/reducer';
 
 export interface IAppState {
     student: StudentStateType,
