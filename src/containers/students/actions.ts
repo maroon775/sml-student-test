@@ -7,7 +7,7 @@ export const ACTION_SET_ITEMS = `${PATH}/SET_ITEMS`;
 export const ACTION_SET_IS_LOADING = `${PATH}/SET_IS_LOADING`;
 
 export interface IState {
-    items: StudentsAPI.IStudentModel[],
+    items: StudentsAPI.IStudent[],
     isLoading?: boolean
 }
 
@@ -39,7 +39,6 @@ const setItemsAction: ISetItemsFn = (items = []) => ({
     }
 });
 
-
 export interface ISetIsLoadingAction extends ISimpleAction {
     payload: {
         isLoading: IState['isLoading']
@@ -63,6 +62,7 @@ export type ActionType = ISetItemsAction | ISetIsLoadingAction;
 export function loadItems(): ThunkAction<Promise<void>, {}, {}, AnyAction> {
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
         return new Promise((resolve) => {
+            dispatch(setItemsAction(initialState.items));
             dispatch(setIsLoadingAction(true));
 
             // emulate async request
@@ -71,7 +71,25 @@ export function loadItems(): ThunkAction<Promise<void>, {}, {}, AnyAction> {
                 dispatch(setItemsAction(students));
                 dispatch(setIsLoadingAction(false));
                 resolve();
-            }, 800);
+            }, 1400);
         })
     }
 }
+
+
+
+export function removeStudent(studentId: number): ThunkAction<Promise<void>, {}, {}, AnyAction> {
+    return (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
+        return new Promise((resolve) => {
+            dispatch(setIsLoadingAction(true));
+
+            // emulate async request
+            setTimeout(() => {
+                StudentsAPI.remove(studentId);
+                dispatch(loadItems());
+                resolve();
+            }, 300);
+        });
+    }
+}
+

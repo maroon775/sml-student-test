@@ -7,18 +7,14 @@ export enum StudentPerformance {
     PERFECT = "Perfect"
 }
 
-console.log(Object.values(StudentPerformance), Object.keys(StudentPerformance));
 export interface IStudent {
+    id: number,
     fullName: string,
     dateOfBirth: string,
     performance: StudentPerformance | undefined
 }
 
-export interface IStudentModel extends IStudent {
-    id: number
-}
-
-function _setArrayToStorage(students: IStudentModel[]): void {
+function _setArrayToStorage(students: IStudent[]): void {
     if (students) {
         localStorage.setItem(storageKey, JSON.stringify(students));
     }
@@ -31,11 +27,11 @@ function _getLastId(): number {
 }
 
 function _findIndexById(id: number): number {
-    return all().findIndex((item: IStudentModel) => item.id === id);
+    return all().findIndex((item: IStudent) => item.id === id);
 }
 
 
-export function all(): IStudentModel[] {
+export function all(): IStudent[] {
     console.log('Request LocalStorage::/students/all');
     const _students = localStorage.getItem(storageKey);
     return _students ? JSON.parse(_students) : [];
@@ -45,7 +41,7 @@ export function create(student: IStudent): void {
     console.log('Request LocalStorage::/students/create', {student});
     const students = Array.from(all());
 
-    const _student: IStudentModel = {
+    const _student: IStudent = {
         ...student,
         id: (_getLastId() + 1)
     };
@@ -55,12 +51,12 @@ export function create(student: IStudent): void {
     _setArrayToStorage(students);
 }
 
-export function update(student: IStudentModel): void {
+export function update(student: IStudent): void {
     console.log('Request LocalStorage::/students/update', {student});
     const students = all();
-    const key = _findIndexById(student.id);
+    const key = student.id <= 0 ? -1 : _findIndexById(student.id);
 
-    if(key >= 0) {
+    if (key >= 0) {
         students[key] = student;
     } else {
         throw new Error(`Student with id=${student.id} is undefined`);
@@ -69,7 +65,7 @@ export function update(student: IStudentModel): void {
     _setArrayToStorage(students);
 }
 
-export function read(studentId: number): IStudentModel | null {
+export function read(studentId: number): IStudent | null {
     console.log('Request LocalStorage::/students/read', {studentId});
     return all().find(item => item.id === studentId) || null;
 }

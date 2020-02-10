@@ -1,48 +1,89 @@
-import React from 'react';
-import {IStudent, IStudentModel, StudentPerformance} from "@/api/Students";
-import {Button, Dropdown, Form, Input, Message} from "semantic-ui-react";
-import * as actions from "@/containers/Student/actions";
+import React, {useEffect} from 'react';
+import {StudentPerformance} from "@/api/Students";
+import {Button, Dropdown, Form, Icon, Input, InputOnChangeData, Message, Segment} from "semantic-ui-react";
+import {Props} from "@/containers/Student/_form";
+import {useHistory} from "react-router";
 
-type PropsState = (IStudent & IStudentModel) & {
-    errorMessage?: string,
-    isLoading?: boolean,
-};
-type PropsActions = {
-    saveStudent: (student: IStudent | IStudentModel) => void,
+const perfObject: { [key: string]: string } = Object.freeze(StudentPerformance);
+const perfOptions = Object.keys(StudentPerformance).map((key: string) => ({
+    key,
+    value: key,
+    text: perfObject[key]
+}));
+perfOptions.unshift({key: '', value: '', text: 'No value'});
+
+type ChangedEvent = React.ChangeEvent<HTMLInputElement>;
+type ChangedData = InputOnChangeData;
+type ChangedPerformanceData = ChangedData & { value: StudentPerformance };
+
+interface onChange {
+    (fn: (value: string) => void): (event: ChangedEvent, data: ChangedData) => void
 }
 
-type Props = PropsState & PropsActions;
+const onChange: onChange = (fn) => (event, data) => fn(data.value);
 
 export const StudentForm: React.FC<React.PropsWithChildren<Props>> = (props: Props) => {
-    const onSubmit = () => {
+    const history = useHistory();
+    useEffect(() => {
+        if (props.studentId && props.readStudent) {
+            props.readStudent(props.studentId);
+        }
+    }, [props.readStudent]);
+
+
+    const onSubmit = (): void => {
         props.saveStudent({
-            id: props.id || undefined,
+            id: props.id,
             dateOfBirth: props.dateOfBirth,
             fullName: props.fullName,
             performance: props.performance
+        }).then(() => {
+            history.push('/');
         });
     };
+    const onCancel = (): void => {
+        history.push('/')
+    };
+    const onDelete = (): void => {
+        if (props.id && props.removeStudent) {
+            props.removeStudent(props.id).then(() => {
+                history.push('/');
+            })
+        }
+    };
 
-    return <Form isLoading={props.isLoading}>
+    return <Form loading={props.isLoading}>
         {props.errorMessage && <Message danger content={props.errorMessage} />}
         <Form.Field
-            as={Input}
-            label="FullName"
+            control={Input}
+            label="Full Name"
+            onChange={onChange(props.onChangeFullName)}
             value={props.fullName}
         />
         <Form.Field
-            as={Input}
+            control={Input}
             label="Date of birth"
             placeholder="mm/dd/yyyy"
+            onChange={onChange(props.onChangeDateOfBirth)}
             value={props.dateOfBirth}
         />
         <Form.Field
-            as={Dropdown}
-            placeholder='Select performance'
+            control={Dropdown}
+            placeholder="Select performance"
             label="Performance"
             value={props.performance}
-            options={StudentPerformance}
+            onChange={(e: ChangedEvent, data: ChangedPerformanceData) => props.onChangePerformance(data.value)}
+            selection
+            options={perfOptions}
         />
-        <Button onClick={onSubmit}>Save</Button>
+        <Segment basic clearing>
+            {
+                props.id
+                    ? <Button color="red" floated="right" onClick={onDelete}>Delete</Button>
+                    : ''
+            }
+            <Button primary floated="left" onClick={onSubmit}>Save</Button>
+            <Button color="red" floated="left" basic onClick={onCancel}>Cancel</Button>
+        </Segment>
     </Form>;
 };
