@@ -10,20 +10,20 @@ type OwnProps = {};
 type StateProps = actions.IState;
 type DispatchProps = {
     loadItems: () => void
+    removeStudent: (studentId: number) => void
 };
 
 export type Props = StateProps & DispatchProps & OwnProps;
 
 
 const mapStateToProps = (state: IRootState): StateProps => state.app.students;
-const mapDispatchToProps = (dispatch: ThunkDispatch<IRootState, {}, AnyAction>) => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<IRootState, {}, AnyAction>):DispatchProps => ({
+    removeStudent: (studentId) => dispatch(actions.removeStudent(studentId)),
     loadItems: () => dispatch(actions.loadItems()),
 });
 
 
-export default connect<
-  StateProps,
-  DispatchProps,
-  OwnProps,
-  IRootState
->(mapStateToProps, mapDispatchToProps)(Students) as React.ComponentType<OwnProps>;
+export default connect<StateProps,
+    DispatchProps,
+    OwnProps,
+    IRootState>(mapStateToProps, mapDispatchToProps)(Students) as React.ComponentType<OwnProps>;

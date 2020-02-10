@@ -6,6 +6,7 @@ const PATH = 'app/containers/Student';
 export const ACTION_READ = `${PATH}/READ`;
 export const ACTION_IS_LOADING = `${PATH}/IS_LOADING`;
 export const ACTION_ERROR = `${PATH}/ERROR`;
+export const ACTION_RESET = `${PATH}/RESET`;
 export const ACTION_SET_DATE_OF_BIRTH = `${PATH}/SET_DATE_OF_BIRTH`;
 export const ACTION_SET_FULLNAME = `${PATH}/SET_FULLNAME`;
 export const ACTION_SET_PERFORMANCE = `${PATH}/SET_PERFORMANCE`;
@@ -93,6 +94,11 @@ export interface ISetStudentFn {
 const setStudentAction: ISetStudentFn = (student) => ({
     type: ACTION_READ,
     payload: student
+});
+
+export const reset = ():ISetStudentAction => ({
+    type: ACTION_RESET,
+    payload: initialState
 });
 
 

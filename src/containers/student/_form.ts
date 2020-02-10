@@ -16,6 +16,7 @@ type DispatchProps = {
     saveStudent: (student: actions.StudentType) => Promise<void>,
     readStudent?: (studentId: number) => void,
     removeStudent?: (studentId: number) => Promise<void>
+    resetForm: () => void
 };
 type StateProps = actions.IState;
 export type Props = StateProps & DispatchProps & OwnProps;
@@ -33,6 +34,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<IRootState, {}, AnyAction>):
             return dispatch(actions.addStudent(student));
         }
     },
+    resetForm: ()=> dispatch(actions.reset()),
     readStudent: (studentId) => dispatch(actions.readStudent(studentId)),
     removeStudent: (studentId) => {
         return dispatch(actions.removeStudent(studentId))

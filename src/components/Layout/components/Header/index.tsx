@@ -1,19 +1,19 @@
 import React from 'react';
 import {
-    Menu,
     Container,
     Image,
 } from 'semantic-ui-react';
 
 import logo from '@/assets/img/logo.png';
+import * as styles from './styles.less';
 import {Link} from "react-router-dom";
 
 export default function Header() {
-    return <Menu text>
-        <Container>
-            <Menu.Item header as={Link} to='/'>
-                <Image size='tiny' alt="React Application Template" src={logo}/>
-            </Menu.Item>
-        </Container>
-    </Menu>;
+    return <Container textAlign="center">
+        <header className={styles.header}>
+            <Link to="/">
+                <Image inline size="tiny" alt="React Application Template" src={logo} />
+            </Link>
+        </header>
+    </Container>;
 }

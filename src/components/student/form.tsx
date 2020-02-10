@@ -31,52 +31,54 @@ export const StudentForm: React.FC<React.PropsWithChildren<Props>> = (props: Pro
     }, [props.readStudent]);
 
 
+    const goToMainPage = () => history.push('/');
+
     const onSubmit = (): void => {
         props.saveStudent({
             id: props.id,
             dateOfBirth: props.dateOfBirth,
             fullName: props.fullName,
             performance: props.performance
-        }).then(() => {
-            history.push('/');
-        });
-    };
-    const onCancel = (): void => {
-        history.push('/')
+        })
+            .then(goToMainPage);
     };
     const onDelete = (): void => {
         if (props.id && props.removeStudent) {
-            props.removeStudent(props.id).then(() => {
-                history.push('/');
-            })
+            props.removeStudent(props.id)
+                .then(goToMainPage)
         }
     };
 
+    const onCancel = () => {
+        props.resetForm();
+        goToMainPage();
+    };
+
     return <Form loading={props.isLoading}>
-        {props.errorMessage && <Message danger content={props.errorMessage} />}
-        <Form.Field
-            control={Input}
-            label="Full Name"
-            onChange={onChange(props.onChangeFullName)}
-            value={props.fullName}
-        />
-        <Form.Field
-            control={Input}
-            label="Date of birth"
-            placeholder="mm/dd/yyyy"
-            onChange={onChange(props.onChangeDateOfBirth)}
-            value={props.dateOfBirth}
-        />
-        <Form.Field
-            control={Dropdown}
-            placeholder="Select performance"
-            label="Performance"
-            value={props.performance}
-            onChange={(e: ChangedEvent, data: ChangedPerformanceData) => props.onChangePerformance(data.value)}
-            selection
-            options={perfOptions}
-        />
-        <Segment basic clearing>
+        <Segment clearing>
+            {props.errorMessage && <Message negative content={props.errorMessage} />}
+            <Form.Field
+                control={Input}
+                label="Full Name"
+                onChange={onChange(props.onChangeFullName)}
+                value={props.fullName}
+            />
+            <Form.Field
+                control={Input}
+                label="Date of birth"
+                placeholder="mm/dd/yyyy"
+                onChange={onChange(props.onChangeDateOfBirth)}
+                value={props.dateOfBirth}
+            />
+            <Form.Field
+                control={Dropdown}
+                placeholder="Select performance"
+                label="Performance"
+                value={props.performance}
+                onChange={(e: ChangedEvent, data: ChangedPerformanceData) => props.onChangePerformance(data.value)}
+                selection
+                options={perfOptions}
+            />
             {
                 props.id
                     ? <Button color="red" floated="right" onClick={onDelete}>Delete</Button>
