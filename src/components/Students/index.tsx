@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Button, Message, Segment} from "semantic-ui-react";
 import {Link} from 'react-router-dom';
 import {Props} from "@/containers/Students";
-import {StudentsTable} from './table';
+import {StudentsTable} from './_table';
 
 
 export const Students: React.FC<Props> = (props: Props) => {
